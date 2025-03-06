@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الكتب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* التصميم العام */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: right; /* لتنسيق النص للغة العربية */
+        }
+
+        /* الناف بار */
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        nav ul li a:hover {
+            color: #ff6f61;
+        }
+
+        /* الهيرو - قسم الهوم */
+        .hero {
+            background-color: #fff;
+            padding: 80px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .hero .content {
+            max-width: 600px;
+            animation: fadeInLeft 1s ease-in-out;
+        }
+        .hero h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin: 0;
+        }
+        .hero p {
+            font-size: 1.2em;
+            color: #555;
+            margin: 20px 0;
+        }
+        .hero .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .hero .buttons button {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .hero .buttons button.secondary {
+            background-color: #333;
+        }
+        .hero .buttons button:hover {
+            background-color: #e65a50;
+        }
+        .hero .image {
+            max-width: 500px;
+            flex: 1;
+            animation: fadeInRight 1s ease-in-out;
+        }
+        .hero .image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* قسم أفضل الكتب */
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            margin: 40px 0 20px;
+            color: #333;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .book-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-10px);
+        }
+        .book-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .book-card .details {
+            padding: 15px;
+        }
+        .book-card h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333;
+        }
+        .book-card p {
+            font-size: 0.9em;
+            color: #555;
+            margin: 5px 0;
+        }
+        .book-card .price {
+            font-size: 1.1em;
+            color: #ff6f61;
+            font-weight: bold;
+        }
+        .book-card .rating {
+            color: #f39c12;
+            font-size: 0.9em;
+        }
+
+        /* قسم الخصومات */
+        .discounts {
+            padding: 40px 20px;
+            background-color: #ff6f61;
+            color: #fff;
+            text-align: center;
+        }
+        .discounts h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .discounts p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .discounts .discount-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .discounts .discount-list .discount-item {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 1;
+            max-width: 300px;
+        }
+        .discounts .discount-list .discount-item h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .discounts .discount-list .discount-item p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        /* قسم آراء العملاء */
+        .testimonials {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .testimonial-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+        }
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .testimonial-card h3 {
+            font-size: 1.9em;
+            margin: 10px 0;
+            color: rgb(47, 47, 153);
+        }
+        .testimonial-card p {
+            font-size: 1.5rem;
+            color: #555;
+        }
+        .testimonial-card .rating {
+            color: #f39c12;
+            font-size: 0.9em;
+        }
+
+        /* قسم أشهر اقتباسات الكتب */
+        .quotes {
+            padding: 40px 20px;
+            background-color: #f4f4f4;
+        }
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .quote-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .quote-card:hover {
+            transform: translateY(-10px);
+        }
+        .quote-card i {
+            font-size: 2em;
+            color: #ff6f61;
+            margin-bottom: 10px;
+        }
+        .quote-card p {
+            font-size: 1.1em;
+            color: #333;
+            font-style: italic;
+        }
+        .quote-card h3 {
+            font-size: 1em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* قسم الشريط الزمني للكتب */
+        .timeline {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline-item {
+            padding: 20px 0;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #ff6f61;
+        }
+        .timeline-content {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .timeline-content h3 {
+            font-size: 1.2em;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .timeline-content p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* قسم خريطة الكتب */
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* تنسيق تفاصيل الكتاب عند الهوفر */
+        .leaflet-popup {
+            bottom: 30px !important; /* تعديل موقع البوب أب */
+            left: -100px !important; /* تعديل موقع البوب أب */
+        }
+
+        .leaflet-popup-content-wrapper {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .leaflet-popup-content img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .leaflet-popup-content h3 {
+            font-size: 1.2em;
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .leaflet-popup-content p {
+            font-size: 0.9em;
+            color: #555;
+            margin: 0;
+        }
+
+        /* الفوتر */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        /* انيميشنات */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الناف بار -->
+    <nav>
+        <div class="logo">مكتبة الكتب</div>
+        <ul>
+            <li><a href="#">الرئيسية</a></li>
+            <li><a href="#">الكتب</a></li>
+            <li><a href="#">المدونة</a></li>
+            <li><a href="#">اتصل بنا</a></li>
+        </ul>
+    </nav>
+
+    <!-- الهيرو - قسم الهوم -->
+    <section class="hero">
+        <div class="content">
+            <h2>مرحبًا بكم في مكتبة الكتب</h2>
+            <p>
+                اكتشف عالمًا من المعرفة مع مجموعة واسعة من الكتب في مختلف المجالات. 
+                سواء كنت تبحث عن كتب تطوير الذات، الأدب الكلاسيكي، أو الكتب العلمية، 
+                ستجد كل ما تحتاجه هنا.
+            </p>
+            <div class="buttons">
+                <button>تصفح الكتب</button>
+                <button class="secondary">تعرف أكثر</button>
+            </div>
+        </div>
+        <div class="image">
+            <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="صورة مكتبة">
+        </div>
+    </section>
+
+    <!-- قسم أفضل الكتب -->
+    <section>
+        <h2 class="section-title">أفضل الكتب مبيعًا</h2>
+        <div class="books-grid">
+            <!-- كتاب 1 -->
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="كتاب 1">
+                <div class="details">
+                    <h3>العادات الذرية</h3>
+                    <p>كتاب عن تطوير العادات الصغيرة لتحقيق تغييرات كبيرة في الحياة.</p>
+                    <p class="price">$15.99</p>
+                    <p class="rating">★★★★☆ (4.5)</p>
+                </div>
+            </div>
+            <!-- كتاب 2 -->
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="كتاب 2">
+                <div class="details">
+                    <h3>قوة التفكير الإيجابي</h3>
+                    <p>كتاب يشرح كيف يمكن للتفكير الإيجابي أن يغير حياتك.</p>
+                    <p class="price">$12.99</p>
+                    <p class="rating">★★★★★ (5.0)</p>
+                </div>
+            </div>
+            <!-- كتاب 3 -->
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="كتاب 3">
+                <div class="details">
+                    <h3>فن الحرب</h3>
+                    <p>كتاب كلاسيكي عن الاستراتيجية والتكتيكات العسكرية.</p>
+                    <p class="price">$10.99</p>
+                    <p class="rating">★★★★☆ (4.0)</p>
+                </div>
+            </div>
+            <!-- كتاب 4 -->
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="كتاب 4">
+                <div class="details">
+                    <h3>الأب الغني والأب الفقير</h3>
+                    <p>كتاب عن الاستقلال المالي وبناء الثروة.</p>
+                    <p class="price">$14.99</p>
+                    <p class="rating">★★★★☆ (4.2)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخصومات -->
+    <section class="discounts">
+        <h2>خصومات خاصة</h2>
+        <p>استمتع بخصومات كبيرة على مجموعة مختارة من الكتب.</p>
+        <div class="discount-list">
+            <div class="discount-item">
+                <h3>خصم 30%</h3>
+                <p>على الأدب الكلاسيكي</p>
+            </div>
+            <div class="discount-item">
+                <h3>خصم 25%</h3>
+                <p>على كتب تطوير الذات</p>
+            </div>
+            <div class="discount-item">
+                <h3>خصم 20%</h3>
+                <p>على الكتب العلمية</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم آراء العملاء -->
+    <section class="testimonials">
+        <h2 class="section-title">آراء العملاء</h2>
+        <div class="testimonials-grid">
+            <!-- رأي 1 -->
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 1">
+                <h3>أحمد محمد</h3>
+                <p>"كتاب رائع! غير طريقة تفكيري بالكامل."</p>
+                <p class="rating">★★★★★</p>
+            </div>
+            <!-- رأي 2 -->
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 2">
+                <h3>فاطمة علي</h3>
+                <p>"أسلوب سلس ومعلومات قيمة."</p>
+                <p class="rating">★★★★☆</p>
+            </div>
+            <!-- رأي 3 -->
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 3">
+                <h3>خالد سعيد</h3>
+                <p>"كتاب ملهم ويستحق القراءة."</p>
+                <p class="rating">★★★★★</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم أشهر اقتباسات الكتب -->
+    <section class="quotes">
+        <h2 class="section-title">أشهر اقتباسات الكتب</h2>
+        <div class="quotes-grid">
+            <!-- اقتباس 1 -->
+            <div class="quote-card">
+                <i class="fas fa-quote-left"></i>
+                <p>"النجاح هو مجموع الجهود الصغيرة المتكررة يوميًا."</p>
+                <h3>- العادات الذرية</h3>
+            </div>
+            <!-- اقتباس 2 -->
+            <div class="quote-card">
+                <i class="fas fa-quote-left"></i>
+                <p>"التفكير الإيجابي هو المفتاح لتحقيق النجاح."</p>
+                <h3>- قوة التفكير الإيجابي</h3>
+            </div>
+            <!-- اقتباس 3 -->
+            <div class="quote-card">
+                <i class="fas fa-quote-left"></i>
+                <p>"اعرف عدوك واعرف نفسك، وفي مئة معركة لن تُهزم."</p>
+                <h3>- فن الحرب</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الشريط الزمني للكتب -->
+    <section class="timeline">
+        <h2 class="section-title">الشريط الزمني للكتب</h2>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>1925: غاتسبي العظيم</h3>
+                    <p>فرانسيس سكوت فيتزجيرالد</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>1949: 1984</h3>
+                    <p>جورج أورويل</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>1960: قتل طائر بريء</h3>
+                    <p>هاربر لي</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم خريطة الكتب -->
+    <section>
+        <h2 class="section-title">خريطة الكتب</h2>
+        <div id="map"></div>
+    </section>
+
+    <!-- إضافة مكتبة Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // تهيئة الخريطة
+        const map = L.map('map').setView([30, 0], 2); // مركز الخريطة ومستوى التكبير
+
+        // إضافة طبقة الخريطة
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // إضافة علامات (Markers) للكتب
+        const books = [
+        {
+            title: "عمارة يعقوبيان",
+            author: "علاء الأسواني",
+            location: [30.0444, 31.2357], // القاهرة، مصر
+            image: "https://covers.storytel.com/jpg-640/9789152178164.13c37958-5cd5-4227-b18f-6c375cd71694?optimize=high"
+        },
+        {
+            title: "كافكا على الشاطئ",
+            author: "هاروكي موراكامي",
+            location: [35.6895, 139.6917], // طوكيو، اليابان
+            image: "https://m.media-amazon.com/images/I/61eWUM5VMHL._UF1000,1000_QL80_.jpg"
+        },
+        {
+            title: "1984",
+            author: "جورج أورويل",
+            location: [51.5074, -0.1278], // لندن، المملكة المتحدة
+            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1572544603i/48652005.jpg"
+        },
+        {
+            title: "الأب الغني والأب الفقير",
+            author: "روبرت كيوساكي",
+            location: [21.3069, -157.8583], // هاواي، الولايات المتحدة
+            image: "https://m.media-amazon.com/images/I/71OB9Vk4aZL.jpg"
+        },
+        {
+            title: "قواعد العشق الأربعون",
+            author: "إليف شافاق",
+            location: [41.0082, 28.9784], // إسطنبول، تركيا
+            image: "https://upload.wikimedia.org/wikipedia/ar/b/b5/Cover_forty_rules_of_Love.jpg"
+        },
+        {
+            title: "البؤساء",
+            author: "فيكتور هوجو",
+            location: [48.8566, 2.3522], // باريس، فرنسا
+            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1358548949i/17189714.jpg"
+        },
+        {
+            title: "الجريمة والعقاب",
+            author: "فيودور دوستويفسكي",
+            location: [55.7558, 37.6173], // موسكو، روسيا
+            image: "https://upload.wikimedia.org/wikipedia/ar/thumb/9/92/%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg/260px-%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg"
+        },
+        {
+            title: "الغريب",
+            author: "ألبير كامو",
+            location: [36.7525, 3.04197], // الجزائر العاصمة، الجزائر
+            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1712960354i/211236323.jpg"
+        },
+        {
+            title: "مئة عام من العزلة",
+            author: "غابرييل غارثيا ماركيث",
+            location: [4.7110, -74.0721], // بوغوتا، كولومبيا
+            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1426319209i/18084962.jpg"
+        },
+        {
+            title: "الشيخ والبحر",
+            author: "إرنست همنغواي",
+            location: [23.1136, -82.3666], // هافانا، كوبا
+            image: "https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE_%D9%88%D8%A7%D9%84%D8%A8%D8%AD%D8%B1.jpg"
+        }
+    ];
+        books.forEach(book => {
+            const marker = L.marker(book.location).addTo(map);
+
+            // إنشاء محتوى البوب أب
+            const popupContent = `
+                <div>
+                    <img src="${book.image}" alt="صورة الكتاب">
+                    <h3>${book.title}</h3>
+                    <p>الكاتب: ${book.author}</p>
+                </div>
+            `;
+
+            // إضافة البوب أب عند الهوفر
+            marker.bindPopup(popupContent);
+
+            // إظهار البوب أب عند الهوفر
+            marker.on('mouseover', function () {
+                this.openPopup();
+            });
+
+            // إخفاء البوب أب عند مغادرة الهوفر
+            marker.on('mouseout', function () {
+                this.closePopup();
+            });
+        });
+    </script>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>© 2023 مكتبة الكتب. جميع الحقوق محفوظة.</p>
+    </footer>
+</body>
+</html>
