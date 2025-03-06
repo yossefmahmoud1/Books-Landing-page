@@ -25,6 +25,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
         }
         nav .logo {
             font-size: 1.5em;
@@ -35,6 +36,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-wrap: wrap;
         }
         nav ul li {
             margin: 0 10px;
@@ -385,6 +387,48 @@
                 transform: translateX(0);
             }
         }
+
+        /* تعديلات الريسبونسف */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                display: none;
+            }
+            nav ul li {
+                margin: 10px 0;
+            }
+            nav .logo {
+                margin-bottom: 10px;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero .content {
+                margin-bottom: 20px;
+            }
+            .hero .buttons {
+                justify-content: center;
+            }
+            .books-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .discounts .discount-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            .discounts .discount-list .discount-item {
+                max-width: 100%;
+            }
+            .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .quotes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
@@ -582,67 +626,67 @@
 
         // إضافة علامات (Markers) للكتب
         const books = [
-        {
-            title: "عمارة يعقوبيان",
-            author: "علاء الأسواني",
-            location: [30.0444, 31.2357], // القاهرة، مصر
-            image: "https://covers.storytel.com/jpg-640/9789152178164.13c37958-5cd5-4227-b18f-6c375cd71694?optimize=high"
-        },
-        {
-            title: "كافكا على الشاطئ",
-            author: "هاروكي موراكامي",
-            location: [35.6895, 139.6917], // طوكيو، اليابان
-            image: "https://m.media-amazon.com/images/I/61eWUM5VMHL._UF1000,1000_QL80_.jpg"
-        },
-        {
-            title: "1984",
-            author: "جورج أورويل",
-            location: [51.5074, -0.1278], // لندن، المملكة المتحدة
-            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1572544603i/48652005.jpg"
-        },
-        {
-            title: "الأب الغني والأب الفقير",
-            author: "روبرت كيوساكي",
-            location: [21.3069, -157.8583], // هاواي، الولايات المتحدة
-            image: "https://m.media-amazon.com/images/I/71OB9Vk4aZL.jpg"
-        },
-        {
-            title: "قواعد العشق الأربعون",
-            author: "إليف شافاق",
-            location: [41.0082, 28.9784], // إسطنبول، تركيا
-            image: "https://upload.wikimedia.org/wikipedia/ar/b/b5/Cover_forty_rules_of_Love.jpg"
-        },
-        {
-            title: "البؤساء",
-            author: "فيكتور هوجو",
-            location: [48.8566, 2.3522], // باريس، فرنسا
-            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1358548949i/17189714.jpg"
-        },
-        {
-            title: "الجريمة والعقاب",
-            author: "فيودور دوستويفسكي",
-            location: [55.7558, 37.6173], // موسكو، روسيا
-            image: "https://upload.wikimedia.org/wikipedia/ar/thumb/9/92/%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg/260px-%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg"
-        },
-        {
-            title: "الغريب",
-            author: "ألبير كامو",
-            location: [36.7525, 3.04197], // الجزائر العاصمة، الجزائر
-            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1712960354i/211236323.jpg"
-        },
-        {
-            title: "مئة عام من العزلة",
-            author: "غابرييل غارثيا ماركيث",
-            location: [4.7110, -74.0721], // بوغوتا، كولومبيا
-            image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1426319209i/18084962.jpg"
-        },
-        {
-            title: "الشيخ والبحر",
-            author: "إرنست همنغواي",
-            location: [23.1136, -82.3666], // هافانا، كوبا
-            image: "https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE_%D9%88%D8%A7%D9%84%D8%A8%D8%AD%D8%B1.jpg"
-        }
-    ];
+            {
+                title: "عمارة يعقوبيان",
+                author: "علاء الأسواني",
+                location: [30.0444, 31.2357], // القاهرة، مصر
+                image: "https://covers.storytel.com/jpg-640/9789152178164.13c37958-5cd5-4227-b18f-6c375cd71694?optimize=high"
+            },
+            {
+                title: "كافكا على الشاطئ",
+                author: "هاروكي موراكامي",
+                location: [35.6895, 139.6917], // طوكيو، اليابان
+                image: "https://m.media-amazon.com/images/I/61eWUM5VMHL._UF1000,1000_QL80_.jpg"
+            },
+            {
+                title: "1984",
+                author: "جورج أورويل",
+                location: [51.5074, -0.1278], // لندن، المملكة المتحدة
+                image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1572544603i/48652005.jpg"
+            },
+            {
+                title: "الأب الغني والأب الفقير",
+                author: "روبرت كيوساكي",
+                location: [21.3069, -157.8583], // هاواي، الولايات المتحدة
+                image: "https://m.media-amazon.com/images/I/71OB9Vk4aZL.jpg"
+            },
+            {
+                title: "قواعد العشق الأربعون",
+                author: "إليف شافاق",
+                location: [41.0082, 28.9784], // إسطنبول، تركيا
+                image: "https://upload.wikimedia.org/wikipedia/ar/b/b5/Cover_forty_rules_of_Love.jpg"
+            },
+            {
+                title: "البؤساء",
+                author: "فيكتور هوجو",
+                location: [48.8566, 2.3522], // باريس، فرنسا
+                image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1358548949i/17189714.jpg"
+            },
+            {
+                title: "الجريمة والعقاب",
+                author: "فيودور دوستويفسكي",
+                location: [55.7558, 37.6173], // موسكو، روسيا
+                image: "https://upload.wikimedia.org/wikipedia/ar/thumb/9/92/%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg/260px-%D8%BA%D9%84%D8%A7%D9%81_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%B1%D9%8A%D9%85%D8%A9_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A8.jpg"
+            },
+            {
+                title: "الغريب",
+                author: "ألبير كامو",
+                location: [36.7525, 3.04197], // الجزائر العاصمة، الجزائر
+                image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1712960354i/211236323.jpg"
+            },
+            {
+                title: "مئة عام من العزلة",
+                author: "غابرييل غارثيا ماركيث",
+                location: [4.7110, -74.0721], // بوغوتا، كولومبيا
+                image: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1426319209i/18084962.jpg"
+            },
+            {
+                title: "الشيخ والبحر",
+                author: "إرنست همنغواي",
+                location: [23.1136, -82.3666], // هافانا، كوبا
+                image: "https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE_%D9%88%D8%A7%D9%84%D8%A8%D8%AD%D8%B1.jpg"
+            }
+        ];
         books.forEach(book => {
             const marker = L.marker(book.location).addTo(map);
 
