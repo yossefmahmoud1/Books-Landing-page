@@ -107,7 +107,7 @@
         /* قسم أفضل الكتب */
         .section-title {
             text-align: center;
-            font-size: 2em;
+            font-size: 4em;
             margin: 40px 0 20px;
             color: #333;
         }
@@ -136,12 +136,12 @@
             padding: 15px;
         }
         .book-card h3 {
-            font-size: 1.2em;
+            font-size: 1.9em;
             margin: 10px 0;
             color: #333;
         }
         .book-card p {
-            font-size: 0.9em;
+            font-size: 1.5em;
             color: #555;
             margin: 5px 0;
         }
@@ -167,7 +167,7 @@
             margin-bottom: 20px;
         }
         .discounts p {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-bottom: 20px;
         }
         .discounts .discount-list {
@@ -187,11 +187,11 @@
             max-width: 300px;
         }
         .discounts .discount-list .discount-item h3 {
-            font-size: 1.5em;
+            font-size: 1.8em;
             margin: 10px 0;
         }
         .discounts .discount-list .discount-item p {
-            font-size: 1em;
+            font-size: 1.3em;
             color: #555;
         }
 
@@ -230,12 +230,12 @@
             color: rgb(47, 47, 153);
         }
         .testimonial-card p {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #555;
         }
         .testimonial-card .rating {
             color: #f39c12;
-            font-size: 0.9em;
+            font-size: 1.9em;
         }
 
         /* قسم أشهر اقتباسات الكتب */
@@ -266,12 +266,12 @@
             margin-bottom: 10px;
         }
         .quote-card p {
-            font-size: 1.1em;
+            font-size: 1.5em;
             color: #333;
             font-style: italic;
         }
         .quote-card h3 {
-            font-size: 1em;
+            font-size: 1.8em;
             color: #555;
             margin-top: 10px;
         }
@@ -429,6 +429,85 @@
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
         }
+
+        /* التصميم الجديد للفوتر */
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em; /* تكبير حجم الخط */
+        }
+
+        .footer-links a:hover {
+            color: #ff6f61;
+        }
+
+        .footer-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .footer-form input {
+            padding: 15px; /* تكبير حجم الحقل */
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em; /* تكبير حجم الخط */
+            width: 250px; /* زيادة عرض الحقل */
+        }
+
+        .footer-form button {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 15px 30px; /* تكبير حجم الزر */
+            font-size: 1.2em; /* تكبير حجم الخط */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-form button:hover {
+            background-color: #e65a50;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 10px;
+            background-color: #222;
+            color: #fff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 1.5em; /* حجم الأيقونات */
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ff6f61;
+        }
     </style>
 </head>
 <body>
@@ -535,14 +614,14 @@
         <div class="testimonials-grid">
             <!-- رأي 1 -->
             <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 1">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 1">
                 <h3>أحمد محمد</h3>
                 <p>"كتاب رائع! غير طريقة تفكيري بالكامل."</p>
                 <p class="rating">★★★★★</p>
             </div>
             <!-- رأي 2 -->
             <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 2">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="عميل 2">
                 <h3>فاطمة علي</h3>
                 <p>"أسلوب سلس ومعلومات قيمة."</p>
                 <p class="rating">★★★★☆</p>
@@ -684,7 +763,7 @@
                 title: "الشيخ والبحر",
                 author: "إرنست همنغواي",
                 location: [23.1136, -82.3666], // هافانا، كوبا
-                image: "https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE_%D9%88%D8%A7%D9%84%D8%A8%D8%AD%D8%B1.jpg"
+                image: "https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE_%D9%88%D8%A7%D9%84%D8%A7%D9%84%D8%A8%D8%AD%D8%B1.jpg"
             }
         ];
         books.forEach(book => {
@@ -714,9 +793,29 @@
         });
     </script>
 
-    <!-- الفوتر -->
+    <!-- الفوتر الجديد -->
     <footer>
-        <p>© 2023 مكتبة الكتب. جميع الحقوق محفوظة.</p>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">الرئيسية</a>
+                <a href="#">الكتب</a>
+                <a href="#">المدونة</a>
+                <a href="#">اتصل بنا</a>
+            </div>
+            <div class="footer-form">
+                <input type="email" placeholder="أدخل بريدك الإلكتروني لحجز كتاب">
+                <button>حجز</button>
+            </div>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 مكتبة الكتب. جميع الحقوق محفوظة.</p>
+        </div>
     </footer>
 </body>
 </html>
