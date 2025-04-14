@@ -21,7 +21,29 @@ A professional, modern, and responsive landing page designed to showcase books, 
 - **Interactive Content Map**: A dynamic map displaying different cities. By clicking on any city, you can see the most popular items from that location, including their images, names, and basic information.
 
 ## Installation:
-
-1. Clone the repo:
+Clone the repository:
    ```bash
    git clone https://github.com/yossefmahmoud1/Books-Landing-page.git
+
+   ```
+## Install dependencies:
+Clone the repository: 
+```bash
+
+npm install
+
+   ```
+## Start the application:
+Clone the repository:  
+```bash
+
+npm start
+
+   ```
+Open the app in your browser at: http://localhost:3000
+
+## Contributing:
+Feel free to fork the project and submit pull requests for improvements.
+
+## Contact:
+For any questions or suggestions, reach out to me at omaryosef136@gmail.com.
